@@ -14,4 +14,4 @@ Go to the project directory and follow the instructions
 * `cmake ..`
 * `make`
 
-Main appears in the build folder.
+Main will appear in the build folder.
