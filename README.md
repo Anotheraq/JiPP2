@@ -2,12 +2,12 @@
 
 ### How to build a project?
 
-All you need is:
+All tools that you need:
 
 * CMake
 * Make
 
-Go to the root folder and follow the instructions
+Go to the project directory and follow the instructions
 
 * `mkdir build`
 * `cd build`
