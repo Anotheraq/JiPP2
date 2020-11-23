@@ -1,4 +1,4 @@
-# JiPP2
+# JiPP
 
 ### How to build a project?
 
