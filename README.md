@@ -1,6 +1,6 @@
 # JiPP2
 
-###Jak skompilować kod?
+### Jak skompilować kod?
 
 Narzędzia potrzebne do kompilacji:
 
