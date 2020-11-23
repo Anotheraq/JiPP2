@@ -1,17 +1,17 @@
 # JiPP2
 
-### Jak skompilować kod?
+### How to build a project?
 
-Narzędzia potrzebne do kompilacji:
+All you need is:
 
 * CMake
 * Make
 
-Przejdź do głównego folderu i wykonaj polecenia
+Go to the root folder and follow the instructions
 
 * `mkdir build`
 * `cd build`
 * `cmake ..`
 * `make`
 
-W folderze build pojawi się program main.
+Main appears in the build folder.
