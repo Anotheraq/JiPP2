@@ -61,26 +61,6 @@ int main()
     std::cout << rownosc << std::endl;
     std::cout << "m1[0]: ";
     m1[0];
-    std::cout <<" 123 "<< m1;
-
-    //m3.print();
-
-    // std::cout << "\nm1 + m2:" << std::endl;
-    // m1.add(m2).print();
-
-    // std::cout << "\nm1 - m2:" << std::endl;
-    // m1.subtract(m2).print();
-
-    // std::string filename, path;
-    // std::cout << "\nPodaj nazwe pliku do zapisu: ";
-    // std::cin >> filename;
-    // std::cout << "Podaj sciezke do zapisu(np. C:\\\\folder_name\\\\): ";
-    // std::cin >> path;
-    // std::cout << "\nm1 mnozymy przez m3 a zatem zapisujemy do pliku " << std::endl;
-    // m1.multiply(m3).store(filename, path);
-    // std::cout << "\nOdczytujemy macierz m4 z pliku: " << std::endl;
-
-    // Matrix m4(filename, path);
     
     std::string filename, path;
     std::cout << "\nPodaj nazwe pliku do zapisu: ";
