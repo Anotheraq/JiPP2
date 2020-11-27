@@ -8,9 +8,6 @@ class Matrix
         int n_class {}, m_class {};
     public:
         
-    
-        
-        
         Matrix(int n, int m);
         Matrix(int n);
         Matrix(std::string filename, std::string path);
