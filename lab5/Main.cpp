@@ -82,9 +82,17 @@ int main()
 
     // Matrix m4(filename, path);
     
-    // std::cout << "Rows: " << m4.rows() << std::endl;
-    // std::cout << "Cols: " << m4.cols() << std::endl;
-    // m4.print();
+    std::string filename, path;
+    std::cout << "\nPodaj nazwe pliku do zapisu: ";
+    std::cin >> filename;
+    std::cout << "Podaj sciezke do zapisu(np. C:\\\\folder_name\\\\): ";
+    std::cin >> path;
+    
+    std::cout << m1;
+    
+    std::ofstream file;
+    file.open(path + filename);
+    file << m1;
 
     system("pause");
     return 0;

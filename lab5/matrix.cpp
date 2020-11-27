@@ -170,7 +170,7 @@ bool Matrix::operator ==(Matrix m2)
 
 std::ostream& operator<<(std::ostream& os, Matrix& m2)
 {
-
+    os << m2.rows() << " " << m2.cols() << std::endl;
     for (int i = 0; i < m2.rows(); i++)
     {
         for (int j = 0; j < m2.cols(); j++)
@@ -180,12 +180,8 @@ std::ostream& operator<<(std::ostream& os, Matrix& m2)
         os << std::endl;
     }
 
-    
-    
-    
     return os;
 }
-
 
 
 void Matrix::operator [](int n)
