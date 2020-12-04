@@ -19,6 +19,7 @@ Matrix::Matrix(int n, int m)
         }
     }
 }
+
 Matrix::Matrix(int n)
 {
     m_class = n;
@@ -38,9 +39,10 @@ Matrix::Matrix(int n)
         }
     }
 }
+
 Matrix *mdbcb;
 
-
+//callback func
 int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     if(argv[2][0] == 'n')
@@ -52,6 +54,9 @@ int callback(void *NotUsed, int argc, char **argv, char **azColName)
     return 0;
 }
 
+/*
+Constructor macierzy z bazy dannych
+*/
 Matrix::Matrix(std::string filename, std::string path)
 {
     
@@ -66,7 +71,7 @@ Matrix::Matrix(std::string filename, std::string path)
     
     n_class = mdbcb->n_class;
     m_class = mdbcb->m_class;
-    std::cout << n_class << m_class << std::endl;
+
     arr = (double**)new double* [n_class];
     for (int i = 0; i < n_class; i++)
         arr[i] = (double*)new double[m_class];
@@ -157,6 +162,10 @@ Matrix Matrix::multiply(Matrix m2)
     return mmul;    
 }
 
+
+/*
+zapisywanie macierzy w bazu dannych
+*/
 void Matrix::store(std::string filename,std::string path)
 {
     std::string sql;

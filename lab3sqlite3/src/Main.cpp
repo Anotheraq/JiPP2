@@ -1,5 +1,5 @@
 #include <iostream>
-#include <matrix.hpp>
+#include "matrix.hpp"
 #include <ctime>
 
 
@@ -55,14 +55,13 @@ int main()
     m1.subtract(m2).print();
 
     std::string filename, path;
-    std::cout << "\nPodaj nazwe pliku do zapisu: ";
+    std::cout << "\nPodaj nazwe bazy dannych do zapisu bez typu(.db): ";
     std::cin >> filename;
     std::cout << "Podaj sciezke do zapisu(np. C:\\\\folder_name\\\\): ";
     std::cin >> path;
-    std::cout << "\nm1 mnozymy przez m3 a zatem zapisujemy do pliku " << std::endl;
-    m1.multiply(m3).print();
+    std::cout << "\nm1 mnozymy przez m3 a zatem zapisujemy do bazy dannych " << std::endl;
     m1.multiply(m3).store(filename, path);
-    std::cout << "\nOdczytujemy macierz m4 z pliku: " << std::endl;
+    std::cout << "\nOdczytujemy macierz m4 z bazy dannych: " << std::endl;
 
     Matrix m4(filename, path);
     
