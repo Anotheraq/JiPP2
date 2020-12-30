@@ -1,4 +1,4 @@
-#include "matrix.cpp"
+#include "matrix.hpp"
 #include <iostream>
 #include <ctime>
 
@@ -46,19 +46,19 @@ int main()
     }
     m3.print();
     std::cout << "\nm1 + m2:" << std::endl;
-    Matrix A = m1+m2;
-    A.print();
+    (m1+m2).print();
     std::cout << "\nm1 - m2:" << std::endl;
-    Matrix B = m1-m2;
-    B.print();
+    (m1-m2).print();
     
     std::cout << "\nm1 * m3:" << std::endl;
-    Matrix C = m1*m3;
-    C.print();
+    (m1*m3).print();
 
-    std::cout << "m1 == m2: ";
-    bool rownosc = m1 == m2;
-    std::cout << rownosc << std::endl;
+    if(m1==m2)
+    {
+        std::cout << "Macierze sa identyczne" << std::endl;
+    }else{
+        std::cout << "Macierze sa rozne" << std::endl;
+    }
     std::cout << "m1[0]: ";
     m1[0];
     
@@ -68,12 +68,16 @@ int main()
     std::cout << "Podaj sciezke do zapisu(np. C:\\\\folder_name\\\\): ";
     std::cin >> path;
     
-    std::cout << m1;
     
     std::ofstream file;
-    file.open(path + filename);
-    file << m1;
+    file.open(path + filename, std::ios::out);
+    
+    if(file.is_open())
+        file << m1;
 
+    Matrix m4(filename, path);
+    m4.print();
+    
     system("pause");
     return 0;
 } 

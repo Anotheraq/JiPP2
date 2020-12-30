@@ -1,3 +1,5 @@
+#ifndef MAT_HPP
+#define MAT_HPP
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -26,3 +28,6 @@ class Matrix
         void store(std::string filename,std::string path);
         void print();
 };
+
+std::ostream& operator<<(std::ostream& os, Matrix& m2);
+#endif
