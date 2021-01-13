@@ -2,10 +2,9 @@
 
 Matrix::Matrix(int n, int m)
 {
-    if(n<=0 || m<=0)
+    if(n < 0 || m < 0)
     {
-        std::cout << "Podałeś złe wymiary macierzy" << std::endl;
-        exit(1);
+        throw MyException("Wrong size of an array");
     }
     n_class = n;
     m_class = m;
@@ -26,11 +25,9 @@ Matrix::Matrix(int n, int m)
 }
 Matrix::Matrix(int n)
 {
-    if(n<=0)
-    {
-        std::cout << "Podałeś złe wymiary macierzy" << std::endl;
-        exit(1);
-    }
+    if(n <= 0)
+        throw MyException("Wrong size of a square array");
+
     m_class = n;
     n_class = n;
     
@@ -52,24 +49,23 @@ Matrix::Matrix(std::string filename, std::string path)
 {
     std::ifstream in;
     in.open(path + filename);
-    if (in.is_open())
+    if (!in.is_open())
     {
-        in >> n_class;
-        in >> m_class;
-        if (n_class > 0 && m_class > 0)
-        {
-            arr = new double* [n_class];
-            for (int i = 0; i < n_class; i++)
-                arr[i] = new double[m_class];
-
-            for (int i = 0; i < n_class; i++)
-                for (int j = 0; j < m_class; j++)
-                    in >> arr[i][j];
-        }
-        in.close();
+        throw MyException("Cannot open the file");
     }
-    else
-        std::cout << "Nie udalo sie otworzyc plik" << std::endl;
+    in >> n_class;
+    in >> m_class;
+ 
+    arr = new double* [n_class];
+    for (int i = 0; i < n_class; i++)
+        arr[i] = new double[m_class];
+
+    for (int i = 0; i < n_class; i++)
+        for (int j = 0; j < m_class; j++)
+            in >> arr[i][j];
+
+    in.close();
+
 
 }
 
@@ -77,11 +73,17 @@ Matrix::Matrix(std::string filename, std::string path)
 
 void Matrix::set(int n, int m, double val)
 {
+    if (n > rows() || n < 0 || m > cols() || m < 0)
+        throw MyException("Index error");
+
     arr[n][m] = val;
 }
 
 double Matrix::get(int n, int m)
 {
+    if (n > rows() || n < 0 || m > cols() || m < 0)
+        throw MyException("Index error");
+
     return arr[n][m];
 }
 
@@ -94,9 +96,11 @@ int Matrix::cols()
 {
     return m_class;
 }
+
 Matrix Matrix::operator +(Matrix m2)
 {
     Matrix madd(rows(),cols());
+
     if (rows() == m2.rows() && cols() == m2.cols())
     {
         for (int i = 0; i < n_class; i++)
@@ -106,11 +110,12 @@ Matrix Matrix::operator +(Matrix m2)
                 madd.arr[i][j] = arr[i][j] + m2.arr[i][j];
             }
         }
-        return madd;
     }else{
-        std::cout << "Dodanie niemozliwe";
-        exit(1);
+        if (rows() != m2.rows() && cols() != m2.cols())
+            throw MyException("Addition is impossible");
     }
+
+    return madd;
 }
 Matrix Matrix::operator -(Matrix m2)
 {
@@ -124,20 +129,20 @@ Matrix Matrix::operator -(Matrix m2)
                     msub.arr[i][j] = arr[i][j] - m2.arr[i][j];
                 }
             }
-            return msub;
         }else{
-            std::cout << "Odejmowanie niemozliwe";
-            exit(1);
+            throw MyException("Subtraction is impossible");
         }
+        return msub;
 }
 Matrix Matrix::operator *(Matrix m2)
 {
     Matrix mmul(rows(),cols());
+    
     if (cols() != m2.rows())
     {
-        std::cout << "Mnozenie podanych macierzy nie jest mozliwe" << std::endl;
-        exit(1);
+        throw MyException("Multiplication niemozliwe");
     }
+
     for (int i = 0; i < n_class; i++)
     {
         for (int j = 0; j < m_class; j++)
@@ -149,16 +154,74 @@ Matrix Matrix::operator *(Matrix m2)
     return mmul;
 } 
 
-bool Matrix::operator ==(Matrix m2)
+void Matrix::operator +=(Matrix m2)
 {
-    Matrix mrow(rows(),cols());
-    if (rows() == mrow.rows() && cols() == mrow.cols())
+    if (rows() == m2.rows() && cols() == m2.cols())
     {
         for (int i = 0; i < n_class; i++)
         {
             for (int j = 0; j < m_class; j++)
             {
-                if(arr[i][j] != mrow.arr[i][j])
+                arr[i][j] += m2.arr[i][j];
+            }
+        }
+
+    }else{
+        throw MyException("Addition and assigning is impossible");
+
+    }
+}
+
+void Matrix::operator ++(int inc)
+{
+    if(inc!=0)
+    {
+        for (int i = 0; i < n_class; i++)
+        {
+            for (int j = 0; j < m_class; j++)
+            {
+                arr[i][j]+=inc;
+            }
+        }
+    }
+    else{
+        for (int i = 0; i < n_class; i++)
+        {
+            for (int j = 0; j < m_class; j++)
+            {
+                arr[i][j]++;
+            }
+        }
+    }
+}
+
+
+void Matrix::operator -=(Matrix m2)
+{
+    if (rows() == m2.rows() && cols() == m2.cols())
+    {
+        for (int i = 0; i < n_class; i++)
+        {
+            for (int j = 0; j < m_class; j++)
+            {
+                arr[i][j] -= m2.arr[i][j];
+            }
+        }
+
+    }else{
+        throw MyException("Subtraction and assigning is impossible");
+    }
+}
+
+bool Matrix::operator ==(Matrix m2)
+{
+    if (rows() == m2.rows() && cols() == m2.cols())
+    {
+        for (int i = 0; i < n_class; i++)
+        {
+            for (int j = 0; j < m_class; j++)
+            {
+                if(arr[i][j] != m2.arr[i][j])
                    return false;
             }
         }
@@ -170,6 +233,7 @@ bool Matrix::operator ==(Matrix m2)
 
 std::ostream& operator<<(std::ostream& os, Matrix& m2)
 {
+    
     os << m2.rows() << " " << m2.cols() << std::endl;
     for (int i = 0; i < m2.rows(); i++)
     {
@@ -186,84 +250,14 @@ std::ostream& operator<<(std::ostream& os, Matrix& m2)
 
 void Matrix::operator [](int n)
 {
+    if(n > rows() || n < 0)
+    {
+        throw MyException("The given number is not in the availability range");
+    }
     for(int j = 0; j < m_class; j++)
         std::cout << arr[n][j] << std::setw(4);
     std::cout << std::endl;
 } 
-
-
-Matrix Matrix::add(Matrix m2)
-{
-    Matrix madd(rows(),cols());
-    if (rows() == m2.rows() && cols() == m2.cols())
-    {
-        for (int i = 0; i < n_class; i++)
-        {
-            for (int j = 0; j < m_class; j++)
-            {
-                madd.arr[i][j] = arr[i][j] + m2.arr[i][j];
-            }
-        }
-        return madd;
-    }else{
-        std::cout << "Dodanie niemozliwe";
-        exit(1);
-    }
-}
-
-Matrix Matrix::subtract(Matrix m2)
-{
-    Matrix msub(rows(),cols());
-    if (rows() == m2.rows() && cols() == m2.cols())
-    {
-        for (int i = 0; i < n_class; i++)
-        {
-            for (int j = 0; j < m_class; j++)
-            {
-                msub.arr[i][j] = arr[i][j] - m2.arr[i][j];
-            }
-        }
-        return msub;
-    }else{
-        std::cout << "Odejmowanie niemozliwe";
-        exit(1);
-    }
-}
-
-Matrix Matrix::multiply(Matrix m2)
-{
-    Matrix mmul(rows(),cols());
-    if (cols() != m2.rows())
-    {
-        std::cout << "Mnozenie podanych macierzy nie jest mozliwe" << std::endl;
-        exit(1);
-    }
-    for (int i = 0; i < n_class; i++)
-    {
-        for (int j = 0; j < m_class; j++)
-        {
-            for (int k = 0; k < m_class; k++)
-                mmul.arr[i][j] += arr[i][k] * m2.arr[k][j];
-        }
-    }
-    return mmul;
-}
-
-void Matrix::store(std::string filename,std::string path)
-{
-    std::ofstream file;
-    file.open(path + filename);
-    file << n_class << ' ' << m_class << std::endl;
-    for (int i = 0; i < n_class; i++)
-    {
-        for (int j = 0; j < m_class; j++)
-        {
-            file << arr[i][j] << ' ';
-        }
-        file << std::endl;
-    }
-    file.close();
-}
 
 void Matrix::print()
 {
