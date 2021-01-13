@@ -2,7 +2,7 @@
 
 Matrix::Matrix(int n, int m)
 {
-    if(n < 0 || m < 0)
+    if(n <= 0 || m <= 0)
     {
         throw MyException("Wrong size of an array");
     }
@@ -79,7 +79,7 @@ void Matrix::set(int n, int m, double val)
     arr[n][m] = val;
 }
 
-double Matrix::get(int n, int m)
+double Matrix::get(int n, int m) const
 {
     if (n > rows() || n < 0 || m > cols() || m < 0)
         throw MyException("Index error");
@@ -87,17 +87,17 @@ double Matrix::get(int n, int m)
     return arr[n][m];
 }
 
-int Matrix::rows()
+int Matrix::rows() const
 {
     return n_class;
 }
 
-int Matrix::cols()
+int Matrix::cols() const
 {
     return m_class;
 }
 
-Matrix Matrix::operator +(Matrix m2)
+Matrix Matrix::operator +(const Matrix& m2)
 {
     Matrix madd(rows(),cols());
 
@@ -111,13 +111,13 @@ Matrix Matrix::operator +(Matrix m2)
             }
         }
     }else{
-        if (rows() != m2.rows() && cols() != m2.cols())
-            throw MyException("Addition is impossible");
+        throw MyException("Addition is impossible");
     }
 
     return madd;
 }
-Matrix Matrix::operator -(Matrix m2)
+
+Matrix Matrix::operator -(const Matrix& m2)
 {
     Matrix msub(rows(),cols());
         if (rows() == m2.rows() && cols() == m2.cols())
@@ -134,13 +134,14 @@ Matrix Matrix::operator -(Matrix m2)
         }
         return msub;
 }
-Matrix Matrix::operator *(Matrix m2)
+
+Matrix Matrix::operator *(const Matrix& m2)
 {
     Matrix mmul(rows(),cols());
     
     if (cols() != m2.rows())
     {
-        throw MyException("Multiplication niemozliwe");
+        throw MyException("Multiplication is impossible");
     }
 
     for (int i = 0; i < n_class; i++)
@@ -154,7 +155,7 @@ Matrix Matrix::operator *(Matrix m2)
     return mmul;
 } 
 
-void Matrix::operator +=(Matrix m2)
+void Matrix::operator +=(const Matrix& m2)
 {
     if (rows() == m2.rows() && cols() == m2.cols())
     {
@@ -196,7 +197,7 @@ void Matrix::operator ++(int inc)
 }
 
 
-void Matrix::operator -=(Matrix m2)
+void Matrix::operator -=(const Matrix& m2)
 {
     if (rows() == m2.rows() && cols() == m2.cols())
     {
@@ -213,7 +214,7 @@ void Matrix::operator -=(Matrix m2)
     }
 }
 
-bool Matrix::operator ==(Matrix m2)
+bool Matrix::operator ==(const Matrix& m2)
 {
     if (rows() == m2.rows() && cols() == m2.cols())
     {
@@ -231,7 +232,7 @@ bool Matrix::operator ==(Matrix m2)
     return true;
 }
 
-std::ostream& operator<<(std::ostream& os, Matrix& m2)
+std::ostream& operator<<(std::ostream& os, const Matrix& m2)
 {
     
     os << m2.rows() << " " << m2.cols() << std::endl;

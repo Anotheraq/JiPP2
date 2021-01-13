@@ -16,21 +16,21 @@ class Matrix
         Matrix(int n);
         Matrix(std::string filename, std::string path);
         void set(int n, int m, double val);
-        double get(int x, int y);
-        Matrix operator +(Matrix m2);
-        Matrix operator -(Matrix m2);
-        Matrix operator *(Matrix m2);
+        double get(int x, int y) const;
+        Matrix operator +(const Matrix& m2);
+        Matrix operator -(const Matrix& m2);
+        Matrix operator *(const Matrix& m2);
         Matrix operator >>(int n);
-        void operator +=(Matrix m2);
-        void operator -=(Matrix m2);
-        bool operator ==(Matrix m2);
+        void operator +=(const Matrix& m2);
+        void operator -=(const Matrix& m2);
+        bool operator ==(const Matrix& m2);
         void operator ++(int inc);
         void operator [](int n);
-        int rows();
-        int cols();
+        int rows() const;
+        int cols() const;
         void store(std::string filename,std::string path);
         void print();
 };
 
-std::ostream& operator<<(std::ostream& os, Matrix& m2);
+std::ostream& operator<<(std::ostream& os, const Matrix& m2);
 #endif
